@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Dodo unit test</title>
+
+<meta name="description" content="Dojo de testeo unitario>
+<meta name="author" content="J. Ignacio Reta Sabarrós">
+
+<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+<link rel="stylesheet" href="bower_components/reveal.js/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+</head>
+
+<body>
+  <div class="reveal">
+  <div class="slides">
+    <section>
+      <section>
+        <div class="icon icon-spring-logo-big homepage-icon"></div>
+        <h1>Testeo unitario</h1>
+        <h3>Desde cero ayuda hasta jUnit+mockito</h3>
+        "El testing puede probar la presencia de errores pero no la ausencia de ellos"
+          <br><i>Edsger Dijkstra</i>
+      </section>
+      <section>
+        La parte de teoría la vas a poder aprovechar con cualquier lenguaje, <br>
+        pero los ejemplos concretos sólo en java. 
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Preguntas frecuentes:
+          * ¿Cómo pruebo un test que no devuelve nada?
+          * ¿Cómo debo probar los métodos get/set?
+          * ¿Dónde colocar mis test?
+          * ¿Cómo testear los métodos privados?
+          * ¿Cómo de simple es un método para decir que es demasiado simple para testear?
+          * ¿Cada cuanto tiempo ejecutar mis tests?
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Para qué necesito los test?
+          * Esta es la primer pregunta que debo hacerme.
+          * Si escribo los tests después de escribir mi código:
+            * Para tener una batería de tests que se ejecuten con Maven en los procesos de Integración Continua
+            * ¿Para algo más? Sí, lo veremos en el Coding Dojo que vamos a practicar
+          * Si escribo los tests antes de escribir mi código (TDD):
+            * Para programar sólo lo necesario
+            * Para escribir código más consistente y mantenible
+            * Ya, de paso, genero una batería de testing para dar de comer al servicio de IC.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Entonces, ¿vemos TDD?
+          Hoy no, que primero tenemos que aprender un par de cositas y sembrar un pelín el terreno.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Qué vamos a ver?
+          * Tipos de tests y su uso
+          * System under test (SUT)
+          * ¿Cómo diseñar un test unitario? 
+          * ¿En qué contexto tengo que usarlo?
+          * Introducción a JUnit 4 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Tipos de test y su uso
+          * Unitarios
+          * De integración
+          * Funcionales
+          * De regresión
+          * De carga
+          * Los demás que se te ocurran que no se nos han ocurrido a nosotros 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Test unitarios
+          * Prueban una funcionalidad concreta.
+          * Se basan en el principio de responsabilidad única.
+          * Responsabilidad única: cada método tiene una única función, y esa función es la que pruebo.
+          * Deben ser independientes de los datos puesto que no probamos datos, sino funcionalidad.
+          * Deben ser repetibles en el tiempo 
+          * La guinda: sólo prueban los métodos públicos del SUT (System Under Test).
+          * No se debe hacer uso de dependencias de la clase a probar.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Otros test
+          * Integración: prueban la conexión entre componentes. Debería ser el siguiente paso al test unitario.
+          * Funcionales: prueban la integración de todos los componentes que desarrollan una funcionalidad.
+          * Regresión: prueban que los SUT siguen funcionando a lo largo del tiempo (IC)
+          * Carga: prueban la eficiencia del código 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### System Under Test (SUT)
+          * Es el sistema que vamos a probar. 
+          * Probamos los métodos públicos:
+            * Interface de nuestro SUT al mundo exterior 
+          * ¿Los métodos privados no?
+            * Relocalizar en otra parte del SUT o del sistema
+            * PrivilegedAccessor 
+        </script>
+      </section>    
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Cómo diseñar un test unitario?
+          * Un test unitario debe ser independiente de los demás y del entorno.
+          * Debe ser rápido 
+          * Su éxito no debe depender del orden de ejecución de los demás tests.
+          * Deben ser repetibles.
+          * Se deben poder ejecutar de forma automática.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Algunas Buenas Prácticas
+          * Escribir un test cuando solamente sea necesario. NO cobertura 100%
+          * Los tests deben colocarse en un lugar representativo 
+          * Deben ser fácilmente mantenibles y entendibles
+          * Debe probar el qué y no el cómo
+            * Métodos públicos -> Qué
+            * Métodos privados o protegidos -> Cómo  
+          * Test única funcionalidad: No If, while, for, ... dentro de un test unitario (Principio de responsabilidad única) 
+          * Sencillos de ejecutar
+          * No más de un ASSERT por test 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          Se acabó la teoría
+
+          Vamos a jugar con el código
+        </script>
+      </section>
+    </section>
+    <section>
+    </section>
+
+  </div>
+  </div>
+  <script type="text/javascript" src="bower_components/reveal.js/lib/js/head.min.js"></script>
+  <script type="text/javascript" src="bower_components/reveal.js/js/reveal.js"></script>
+
+  <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          keyboard: true,
+          center: true,
+          hideAddressBar: true,
+
+          theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+          transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/none
+
+          dependencies: [
+  					{ src: 'bower_components/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  					{ src: 'bower_components/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+  					{ src: 'bower_components/reveal.js/plugin/notes/notes.js' }
+  				]
+      });
+  </script>
+</body>
+</html>
