@@ -3,13 +3,13 @@
 
 <head>
 <meta charset="utf-8">
-<title>Dodo unit test</title>
+<title>Dojo unit test</title>
 
 <meta name="description" content="Dojo de testeo unitario>
 <meta name="author" content="J. Ignacio Reta Sabarrós">
 
 <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
-<link rel="stylesheet" href="bower_components/reveal.js/css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="bower_components/reveal.js/css/theme/beige.css" id="theme">
 <link rel="stylesheet" href="lib/css/zenburn.css">
 
 
@@ -23,6 +23,8 @@
         <div class="icon icon-spring-logo-big homepage-icon"></div>
         <h1>Testeo unitario</h1>
         <h3>Desde cero ayuda hasta jUnit+mockito</h3>
+      </section>
+      <section>
         "El testing puede probar la presencia de errores pero no la ausencia de ellos"
           <br><i>Edsger Dijkstra</i>
       </section>
@@ -137,16 +139,233 @@
           * No más de un ASSERT por test 
         </script>
       </section>
+    </section>
+
+    <section>
       <section data-markdown>
         <script type="text/template">
-          Se acabó la teoría
+          ## Se acabó la teoría
+          ### Vamos a jugar con el código
+          Paso 1
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Paso 1
+          1. Clonar el repositorio
+          1. Importarlo en eclipse 
+          1. Crear test sin ningún framework
+            * Pistas: SYSO, main, if, ...
+        </script>
+      </section>
+    </section>
 
-          Vamos a jugar con el código
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+        ### jUnit
+        * es un framework para implementar tests unitarios en Java.
+        * Se integra con Maven, gradle, ivy.
+        * Emplea anotaciones: @Test, @Before, @BeforeClass, @After, @AfterClass, …
+        * Empleamos asserts para establecer la condición de aceptación: assertTrue, assertFalse, assertEquals, assertNull…
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Anotaciones
+          * @Test: sirve para indicar que el método que la contiene es un test.
+          * @Before: ejecuta el método que la contiene justo antes de cada test. 
+          * @After: ejecuta el método que la contiene justo después de cada test.
+          * @BeforeClass: ejecuta el método que la contiene justo antes del primer test.
+          * @AfterClass: ejecuta el método que la contiene justo después del último test.
+
+          * @Ignore: evita la ejecución del tests (es el demonio) &#x1f479; 
+          <!-- .element: class="fragment highlight-red" data-fragment-index="0" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Condiciones de aceptación (I)
+          * assertTrue(condición a testear): Comprueba que la condición es cierta.
+          * assertFalse(condición a testear): Comprueba que la condición es falsa.
+        </script>
+      </section>    
+      <section data-markdown>
+        <script type="text/template">
+          ### Condiciones de aceptación (II)
+          * assertEquals(valor esperado, valor obtenido) y assertNotEquals(valor esperado, valor obtenido): Comprueba que el valor que esperamos y el obtenido con el método a prueba es el mismo o no.
+        </script>
+      </section>    
+      <section data-markdown>
+        <script type="text/template">
+          ### Condiciones de aceptación (y III)
+          * assertNull(objeto) y assertNotNull(objeto): Comprueba que el objeto obtenido es nulo o no.
+          * fail(): Hace que el test termine con fallo
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Paso 2
+          Crear tests usando jUnit
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Qué es un mock?
+          * Un mock es un objeto que simula el comportamiento de un objeto real.
+          * Los utilizaremos en los tests unitarios para simular el comportamiento de otros objetos que interactúen con nuestro SUT.
+          * Con un mock simularemos llamadas a métodos.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Mockito - Introducción
+          * Libreria Java, basada en EasyMock
+          * Simula el comportamiento de una clase de forma dinámica
+          * Permite aislar SUT a testear
+          * Permite mockear clases concretas e interfaces
+          * Ciclo de uso
+            * Stubbing
+            * Ejecutar
+            * Verificar datos y/o llamadas
+          * Los mocks tienen memoria --> Acceso a cualquier iteración
+          * Anotación: @Mock
+          * MockitoAnnotations.initMocks(testClass)
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Stubbing (I)
+          * Simula el comportamiento de los mocks en las llamadas a ciertos métodos
+          * Devuelve valor por defecto si no tiene stub
+        </script>
+      </section>
+      <section>
+        <h2>Ejemplo:</h2>
+        <pre><code data-trim data-noescape>
+//Mock
+LinkedList mockedList = mock(LinkedList.class);
+//Stubbing
+when(mockedList.get(0)).thenReturn("first");
+when(mockedList.get(1)).thenReturn(new RuntimeException());
+//Ejecución
+System.out.println(mockedList.get(0)); // Pinta "first"
+System.out.println(mockedList.get(1)); // Lanza RuntimeEx
+System.out.println(mockedList.get(999)); // Devuelve null
+//Verificación
+verify(mockedList).get(0);
+        </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          #### Formas de hacer stub:
+          * thenReturn(): Devuelve un tipo primitivo u objeto 
+          * thenThrow(): Lanza una excepción
+          * thenAnswer(): Respuesta genérica. Crea una respuesta a partir de la implementación de un objeto Answer.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          #### Formas de hacer stub con métodos void:
+          * doThrow(Throwable): Lanza una excepción en la fase de ejecución
+          * doNothing(): Por defecto. No hace nada el método
+          </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          #### Otras formas:
+          * doAnswer(Answer): Genera una respuesta genérica
+          * doReturn(Object): Se usa en casos excepcionales en los que no se puede usar thenReturn(Object)
+          Todas estar formas se pueden anidar y respetan el orden de definición en la ejecución del objeto mockeado.
+        </script>
+      </section>
+
+      <section>
+        <h3>Arguments Matchers</h3>
+        Permiten realizar llamadas a métodos sin declarar explícitamente los parámetros.
+        Ejemplo:
+        <pre><code data-trim data-noescape>
+when(mockedList.get(anyInt())).thenReturn("theValue")
+        </code></pre>
+        Especificamos que cuando llamemos al método get del objeto mockedList pasando como parámetro un integer, el mock nos devuelva el valor "theValue".
+        También podemos verificar usando argument matchers.
+        Ejemplo:
+        <pre><code data-trim data-noescape>
+verify(mockedList).get(anyInt());
+        </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Verificaciones I
+          Consiste en comprobar que se ha invocado algún método del mock.
+          * verify(mockedObject).methodRequested(params)
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Verificaciones II
+          * times(): Número exacto de invocaciones
+          * atLeast(): Al menos un número de invocaciones
+          * atMost(): Como máximo un número de invocaciones
+          * never(): No se ha realizado ninguna invocación 
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Verificaciones III
+          * inOrder(): Verifica el orden de las llamadas
+          * verifyZeroInteractions(): Verifica que algunos mocks no interactúan
+          * verifyNoMoreInteractions(): Verifica las llamadas redundantes
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## NO es necesario verificar todas las interacciones, SOLO las que son necesarias 
+        </script>
+      </section>
+      <section>
+      <h3>Ejemplo</h3>
+      <pre><code data-trim data-noescape>
+//creando mocks
+List mockUno = mock(List.class);  
+List mockDos = mock(List.class); 
+List mockTres = mock(List.class);
+List mockCuatro = mock(List.class); 
+//usando mocks
+mockUno.add("uno");  
+mockCuatro.add("dos");
+mockCuatro.add("tres"); 
+verify(mockUno).add("uno"); 
+verify(mockUno, times(1)).add("uno"); //verificacion número de llamadas  
+verify(mockCuatro, atLeast(1)).add("dos"); //al menos se ha llamado una vez
+verify(mockCuatro, atMost(2)).add("dos");//como mucho se ha llamado 2 veces
+verify(mockCuatro, never()).add("cuatro"); // Nunca se ha llamado
+verify(mockUno, never()).add("dos");  //el metodo no ha sido llamado
+//Verificamos el orden
+InOrder order = inOrder(mockUno,mockCuatro);
+order.verify(mockUno).add("uno");
+order.verify(mockCuatro).add("dos");
+verifyZeroInteractions(mockDos, mockTres); //verificamos los mocks no tienen interactuaciones
+        </code></pre> 
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Paso 3
+          Y ahora toca completar nuestro ejercicio con lo que acabamos de aprender.
         </script>
       </section>
     </section>
     <section>
+    <h3><p class="fragment fade-up">¿Ruegos?</p></h3>
+    <h3><p class="fragment fade-up">¿Quejas?</p></h3>
+    <h3><p class="fragment fade-up">¿Preguntas?</p></h3>
+    <h2><p class="fragment fade-up">Pues a jugar, muchas gracias</p></h2>
+    <p class="fragment fade-up">aplausos &#x1f609;</p>
     </section>
+
 
   </div>
   </div>
@@ -163,6 +382,11 @@
           keyboard: true,
           center: true,
           hideAddressBar: true,
+          // width: "90%",
+          // height: "90%",
+          // margin: 0,
+          // minScale: 1,
+          // maxScale: 1,
 
           theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
           transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/none
